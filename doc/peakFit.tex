@@ -1,0 +1,23 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+
+\begin{document}
+	Gaussian (gauss):
+	\begin{equation}
+		y = y_0 + A\*\frac{\sqrt{4\*\ln{2}}}{\sqrt{\pi}\*w}\*\exp\left[-\frac{4\*\ln{2}}{w^2}\*(x-x_c)^2\right] \nonumber
+	\end{equation}
+
+	Lorentz (lorentz):
+	\begin{equation}
+		y = y_0 + A\*\frac{2}{\pi}\*\frac{w}{4\*(x-x_c)^2+w^2} \nonumber
+	\end{equation}
+
+	Pseudo-Voigt 1 (psdVoigt1):
+	\begin{equation}
+		y = y_0 + A\left\{\mu\*\frac{2}{\pi}\*\frac{w}{4\*(x-x_c)^2+w^2} + \left(1-\mu\right)\*\frac{\sqrt{4\*\ln{2}}}{\sqrt{\pi}\*w}\*\exp\left[-\frac{4\*\ln{2}}{w^2}\*(x-x_c)^2\right]\right\} \nonumber
+	\end{equation}
+
+\end{document}

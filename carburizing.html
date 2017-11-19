@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+<title>Carburizing</title>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<!-- dygraphs -->
+<script type="text/javascript" src="js/dygraph-combined.min.js"></script>
+<style type="text/css">
+	body, input {
+		font-family: sans-serif;
+		font-size: 14px;
+	}
+	input.param {
+		margin-right: 30px;
+		width: 60px;
+	}
+	input.disabled {
+		color: #999;
+	}
+	input.outrange {
+		color: #f00;
+		font-weight: bold;
+	}
+	
+	.container {
+		width: 700px;
+		margin: 0 auto;
+	}
+
+	table#params {
+		margin-top: 30px;
+	}
+	div#chart {
+		width: 700px;
+		height: 400px;
+	}
+	input#compute {
+		margin-top: 20px;
+	}
+</style>
+</head>
+<body>
+	<div class="container">
+		<div id="chart"></div>
+		<table id="params">
+			<tr>
+				<td><label for="TC">Temperature (°C)</label></td>
+				<td><input value="900" name="TC" id="TC" class="param"></td>
+
+				<td><label for="t">Time (min)</label></td>
+				<td><input value="180" name="t" id="t" class="param"></td>
+			</tr>
+			<tr>
+				<td><label for="L">Length (mm)</label></td>
+				<td><input value="5.0" name="L" id="L" class="param"></td>
+
+				<td><label for="n">Grid size</label></td>
+				<td><input value="50" name="n" id="n" class="param"></td>
+			</tr>
+			<tr>
+				<td><label for="rmax">Maximum allowed value of r (dimensionless)</label></td>
+				<td><input value="0.1" name="rmax" id="rmax" class="param"></td>
+
+				<td><label for="nit">Number of iterations (max. 20000)</label></td>
+				<td><input name="nit" id="nit" class="param disabled" readonly></td>
+			</tr>
+			<tr>
+				<td><label for="c0">Bulk carbon content (wt.%)</label></td>
+				<td><input value="0.2" name="c0" id="c0" class="param"></td>
+
+				<td><label for="cs">Carbon content in the surface (wt.%)</label></td>
+				<td><input value="1.0" name="cs" id="cs" class="param"></td>
+			</tr>
+		</table>
+
+		<button id="exportcsv" class="btn btn-default">Download CSV</button>
+        <a id="linkcsv"></a>
+        <button id="exporttxt" class="btn btn-default">Download TXT</button>
+        <a id="linktxt"></a>
+	</div>
+
+	<script src="js/carburizing.js"></script>
+</body>
+</html>

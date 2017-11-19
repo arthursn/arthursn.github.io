@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    
+    <!-- dygraphs -->
+    <script type="text/javascript" src="js/dygraph-combined.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <style type="text/css">
+        .min, .max {
+            padding: 2%;
+        }
+        .slider {
+            width: 75%;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        #chart {
+            width: 100%;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h4>Plotting sin(a*x)*cos(b*x)</h4>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div id="chart"></div>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-sm-1">
+                <label>a:</label>
+            </div>
+            <div class="col-sm-6">
+                <span class="min">0</span>
+                <div class="slider"><input name="variable1" type="range" min="0" max="10" value="1" step="0.1"></div>
+                <span class="max">10</span>
+            </div>
+            <div class="col-sm-2">
+                <input class="form-control" name="variable1" type="number" min="0" max="10" value="1" step="0.1">
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-sm-1">
+                <label>b:</label>
+            </div>
+            <div class="col-sm-6">
+                <span class="min">0</span>
+                <div class="slider"><input name="variable2" type="range" min="0" max="10" value="0" step="0.1"></div>
+                <span class="max">10</span>
+            </div>
+            <div class="col-sm-2">
+                <input class="form-control" name="variable2" type="number" min="0" max="10" value="0" step="0.1">
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(function() {
+            "use strict";
+
+            var x = new Array(201).fill(undefined).map((v, i) => i*2*Math.PI/200);
+
+            var getParams = function() {
+                return {
+                    a: parseFloat($("input[type=number][name=variable1]").val()), 
+                    b: parseFloat($("input[type=number][name=variable2]").val())
+                };
+            };
+
+            var f = function(x, a, b) {
+                return Math.sin(x*a)*Math.cos(x*b);
+            };
+
+            var compute = function(p) {
+                return x.map((z) => [z, f(z, p.a, p.b)]);
+            };
+
+            var graph = new Dygraph($("#chart")[0], compute(getParams()), {valueRange: [-1.1, 1.1], labels: ["x", "y"]});
+        
+            $("input").change(function(e) {
+                $("input[name="+$(this).attr("name")+"]").val($(this).val());
+                graph.updateOptions({"file": compute(getParams())});
+            });
+        });
+    </script>
+    </body>
+</html>

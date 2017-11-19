@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+<title>Hardness conversion</title>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script src="js/URI.js"></script>
+
+<script src="js/everpolate.browserified.js"></script>
+
+<script src="js/hardness_conversion.js"></script>
+</head>
+
+<body>
+    <!-- Page Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="page-header">Hardness conversion tool</h2>
+
+                <p>Hardness conversion tool for non-austenitic steels. The values are interpolated from Tables 1 and 2 from <a target="_blank" href="http://dx.doi.org/10.1520/E0140-12B">ASTM E140-12b</a> standard.</p>
+
+                <label for="from">De:</label>
+                <div class="control-group row">
+                    <div class="form-group col-sm-5">
+                        <select id="from" class="form-control">
+                            <option value="HV"></option>
+                            <option value="HBS"></option>
+                            <option value="HBW"></option>
+                            <option value="HRA"></option>
+                            <option value="HRB"></option>
+                            <option value="HRC" selected></option>
+                            <option value="HK"></option>
+                            <option value="HSc"></option>
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <input id="Hfrom" class="form-control" placeholder="Type the values separated by commas and hit ENTER.">
+                        <div class="help-block" style="display:none;">Sintaxe inválida</div>
+                    </div>
+                </div>
+
+                <label for="to">Para:</label>
+                <div class="control-group row">
+                    <div class="form-group col-sm-5">
+                        <select id="to" class="form-control">
+                            <option value="HV" selected></option>
+                            <option value="HBS"></option>
+                            <option value="HBW"></option>
+                            <option value="HRA"></option>
+                            <option value="HRB"></option>
+                            <option value="HRC"></option>
+                            <option value="HK"></option>
+                            <option value="HSc"></option>
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <input id="Hto" class="form-control" readonly>
+                    </div>
+                </div>
+
+                <p>*Indentation hardness is not a single fundamental property but a combination of properties, and the contribution of each to the hardness number varies with the type of test. The modulus of elasticity has been shown to influence conversions at high hardness levels; and at low hardness levels conversions between hardness scales measuring depth and those measuring diameter are likewise influenced by differences in the modulus of elasticity. Therefore separate conversion tables are necessary for different materials.</p>
+                <p>*Values shown between round brackets are out of the range supplied in the ASTM E140 standard and consist of extrapolations.</p>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</body>
+
+</html>

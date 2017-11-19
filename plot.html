@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+<title>Plot</title>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<!-- dygraphs -->
+<script type="text/javascript" src="js/dygraph-combined.min.js"></script>
+<script type="text/javascript" src="js/dygraph-extra.js"></script>
+<!-- regression-js -->
+<script type="text/javascript" src="js/regression.min.js"></script>
+<style type="text/css">
+	html {
+		height: 100%;
+	}
+	body {
+		font-family: sans-serif;
+		font-size: 14px;
+		height: 100%;
+	}
+	p {
+		margin: 10px 0;
+	}
+	input {
+		font-size: 14px;
+		cursor: pointer;
+	}
+	label {
+		cursor: pointer;
+	}
+	label:hover {
+		text-decoration: underline;
+	}
+	#content {
+		width: 70%;
+		min-width: 800px;
+		height: 60%;
+		min-height: 400px;
+		margin: 0 auto;
+	}
+	#panel {
+		width: 750px;
+		margin: 0 auto;
+	}
+	#wrapper {
+		position: relative;
+		width: 100%;
+		height: 100%;
+	}
+	#chart {
+		position: absolute;
+		left: 10px;
+		right: 10px;
+		top: 10px;
+		bottom: 10px;
+	}
+	#epoch::before {
+		content: "Epoch: ";
+	}
+</style>
+</head>
+<body>
+	<div id="content">
+		<div id="wrapper">
+			<div id="chart"></div>
+		</div>
+		<div id="panel">
+			<p>
+				<input type="file" id="data" accept="plain/text" style="width:500px;" />
+				<label style="margin-left:10px;">Lines to skip: </label><input type="number" id="skiplines" class="params" value=0 min=0 style="width:30px;" />
+				<input type="button" id="reload" value="Reload" style="margin-left: 10px;"/><br/>
+			</p>
+			
+			<p>
+				<b>Plot parameters: </b>
+				<label>From: </label><input type="number" id="from" class="params" min=1 style="width:70px;"/>
+				<label style="margin-left:10px;">To: </label><input type="number" id="to" class="params" min=1 style="width:70px;"/>
+				<label style="margin-left:10px;">Every: </label><input type="number" id="every" class="params" min=1 style="width:50px;"/>
+				<input type="button" id="reset" value="Reset" style="margin-left: 30px;"/><br/>
+			</p>
+
+			<p><b>X axis: </b><span id="xaxis"></span></p>
+			<p><b>Show series: </b><span id="showSeries"></span></p>
+			<p>
+				<input type="button" id="selectAll" value="Select all"/>
+				<input type="button" id="deselectAll" value="Deselect all" />
+				<input type="button" id="exportcsv" value="Export as CSV" style="margin-left: 300px"/>
+				<input type="button" id="savepng" value="Save as PNG" />
+				<a id="linkimg" style="display:none"></a>
+				<a id="linkcsv" style="display:none"></a>
+			</p>
+
+			<p>
+				<input type="button" id="regression" value="Regression" />
+				<input type="button" id="clearreg" value="Clear regression" />
+				<span id="regresult" style="margin-left: 50px"></span>
+			</p>
+
+		</div>
+	
+	<script type="text/javascript" src="js/plot.js"></script>
+	</div>
+</body>
+</html>

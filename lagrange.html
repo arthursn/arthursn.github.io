@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+<title>Lagrange polynomial</title>
+<script type="text/x-mathjax-config">
+	MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript" async
+	src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</head>
+<body>
+	<div style="width: 960px; margin: 0 auto;">
+		<h3>Interpolation polynomial in the Lagrange form and its first derivative</h3>
+		<p>The second order Lagrange polynomial can be written as:</p>
+		$$p(x) = \frac{(x-x_1)(x-x_2)}{(x_0-x_1)(x_0-x_2)}y_0 + \frac{(x-x_0)(x-x_2)}{(x_1-x_0)(x_1-x_2)}y_1 + \frac{(x-x_0)(x-x_1)}{(x_2-x_0)(x_2-x_1)}y_2$$
+
+		<p>And its first derivative is:</p>
+		$$p'(x) = \frac{(x - x_1) + (x - x_2)}{(x_0-x_1)(x_0-x_2)}y_0 + \frac{(x - x_0) + (x - x_2)}{(x_1-x_0)(x_1-x_2)}y_1 + \frac{(x - x_0) + (x - x_1)}{(x_2-x_0)(x_2-x_1)}y_2$$
+
+		<p>If the nodes $x_0$, $x_1$ and $x_2$ are equispaced by a step $\Delta x$, then the calculated derivatives at the nodes can be expressed as:</p>
+		$$p'(x_0) = \frac{-3y_0 + 4y_1 - y_2}{2\Delta x}$$
+		$$p'(x_1) = \frac{-y_0 + y_2}{2\Delta x}$$
+		$$p'(x_2) = \frac{y_0 - 4y_1 + 3y_2}{2\Delta x}$$
+
+		<p>Notice that the expression for the derivative at $x_1$ is equivalent to the derivative calculated using the central differences method.</p>
+	</div>
+</body>
+</html>

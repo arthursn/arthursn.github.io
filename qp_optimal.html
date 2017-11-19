@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+<title>Optimal quenching temperature</title>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<!-- URI.js -->
+<script type="text/javascript" src="js/URI.js"></script>
+<!-- dygraphs -->
+<script type="text/javascript" src="js/dygraph-combined.min.js"></script>
+<!-- Newton-Raphson -->
+<script type="text/javascript" src="js/newton-raphson.js"></script>
+<!-- Main script -->
+<script type="text/javascript" src="js/qp_optimal.js"></script>
+<link rel="stylesheet" type="text/css" href="css/qp_optimal.css">
+</head>
+<body>
+	<div id="container">
+		<h3>Optimal quenching temperature in the Q&amp;P process</h3>
+		<div id="chart"></div>
+		<table>
+			<tr>
+				<th colspan=2>Parameters</th>
+				<th colspan=2>Method</th>
+				<th colspan=2>Plotting</th>
+			</tr>
+			<tr>
+				<td><label for="PT">Partitioning temperature (°C)</label></td>
+				<td><input value="400" name="PT" id="PT" class="param"></td>
+				<td><input type="radio" name="method" class="method" value="cce" id="cce" checked></td>
+				<td><label for="cce">CCE</label></td>
+				<td><input type="checkbox" name="plot" value="fausf" id="0" checked></td>
+				<!-- <td><label for="0">$f^\gamma_{final}$ (final fraction of $\gamma$)</label></td> -->
+				<td><label for="0">fγf (final fraction of &gamma;)</label></td>
+			</tr>
+			<tr>
+				<!-- <td><label for="wCi">$\gamma$ carbon content (%wt.)</label></td> -->
+				<td><label for="wCi">&gamma; carbon content (%wt.)</label></td>
+				<td><input value="0.25" name="wCi" id="wCi" class="param"></td>
+				<td><input type="radio" name="method" class="method" id="decarb" value="decarb"></td>
+				<!-- <td><label for="decarb">Complete decarburization of $\alpha\text{'}$</label></td> -->
+				<td><label for="decarb">Complete decarburization of &alpha;'</label></td>
+				<td><input type="checkbox" name="plot" value="fausi" id="1"></td>
+				<!-- <td><label for="1">$f^\gamma_i$ (initial untransf. fraction of $\gamma$)</label></td> -->
+				<td><label for="1">fγi (initial untransf. fraction of &gamma;)</label></td>
+			</tr>
+			<tr>
+				<th colspan=2>KM eq. parameters</th>
+				<td></td>
+				<td></td>
+				<td><input type="checkbox" name="plot" value="fmari" id="2"></td>
+				<!-- <td><label for="2">$f^{\alpha\text{'}}_i$ (initial transf. fraction of $\alpha\text{'}$)</label></td> -->
+				<td><label for="2">fα'i (initial transf. fraction of &alpha;')</label></td>
+			</tr>
+			<tr>
+				<!-- <td><label for="beta">$\beta$</label></td> -->
+				<td><label for="beta">&beta;</label></td>
+				<td><input value="0.011" name="beta" id="beta" class="param"></td>
+				<td></td>
+				<td></td>
+				<td><input type="checkbox" name="plot" value="fmarfr" id="3"></td>
+				<!-- <td><label for="3">$f^{\alpha\text{'}}_{fresh}$ (fraction of fresh $\alpha\text{'}$)</label></td> -->
+				<td><label for="3">fα'fr (fraction of fresh &alpha;')</label></td>
+			</tr>
+			<tr>
+				<!-- <td><label for="Ms">$Ms$</label></td> -->
+				<td><label for="Ms">Ms</label></td>
+				<td><input value="380" name="Ms" id="Ms" class="param"></td>
+				<td></td>
+				<td></td>
+				<td><input type="checkbox" name="plot" value="wCaus" id="4"></td>
+				<!-- <td><label for="4">$w^\gamma_C$ (carbon in $\gamma$, wt.%)</label></td> -->
+				<td><label for="4">Cγ (carbon in &gamma;, wt.%)</label></td>
+			</tr>
+			<tr>
+				<td><label for="Topt">Optimal temperature:</label></td>
+				<td id="Topt"></td>
+				<td></td>
+				<td></td>
+				<td><input type="checkbox" name="plot" value="wCmar" id="5"></td>
+				<!-- <td><label for="5">$w^{\alpha\text{'}}_C$ (carbon in $\alpha\text{'}$, wt.%)</label></td> -->
+				<td><label for="5">Cα' (carbon in &alpha;', wt.%)</label></td>
+			</tr>
+		</table>
+		<p style="float: right; margin-right: 50px;">
+			<input type="button" value="Select all" id="selectAll" style="font-size: 14px; margin-top: 10px"/>
+			<input type="button" value="Deselect all" id="deselectAll" style="font-size: 14px; margin-top: 10px"/>
+		</p>
+		<p>
+			<input type="button" value="Reset" id="reset" style="font-size: 14px; margin-top: 10px"/>
+			<input type="button" value="Download CSV" id="exportcsv" style="font-size: 14px; margin-top: 10px; margin-left: 100px;"/>
+			<a id="linkcsv"></a>
+		</p>
+	</div>
+</body>
+</html>

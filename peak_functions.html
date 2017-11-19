@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+<title>Peak fitting functions</title>
+<script type="text/x-mathjax-config">
+	MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\(','\)']]}});
+</script>
+<script type="text/javascript" async
+	src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</head>
+<body>
+	<div style="width: 960px; margin: 0 auto;">
+		<h3>Pseudo-Voigt function</h3>
+		$$y = y_0 + A\left\{\mu\,\frac{2}{\pi}\,\frac{w}{4\,(x-x_c)^2+w^2} + \left(1-\mu\right)\,\frac{\sqrt{4\,\ln{2}}}{\sqrt{\pi}\,w}\,\exp\left[-\frac{4\,\ln{2}}{w^2}\,(x-x_c)^2\right]\right\}$$
+
+		<h3>Gaussian profile</h3>
+		$$y = y_0 + A\,\frac{\sqrt{4\,\ln{2}}}{\sqrt{\pi}\,w}\,\exp\left[-\frac{4\,\ln{2}}{w^2}\,(x-x_c)^2\right]$$
+
+		<h3>Lorentz function</h3>
+		$$y = y_0 + A\,\,\frac{2}{\pi}\,\frac{w}{4\,(x-x_c)^2+w^2}$$
+	</div>
+</body>
+</html>
