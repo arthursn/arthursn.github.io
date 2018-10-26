@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <meta name="theme-color" content="#222222">
 
-    <title>Simple diffusion model</title>
+    <title>Carburizing model</title>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -78,7 +78,7 @@
                 <p><b>Show:</b></p>
                 <p>
                     <label class="checkbox-inline"><input type="checkbox" class="toggle-plot" value="0" checked>Carbon profile</label>
-                    <label class="checkbox-inline"><input type="checkbox" class="toggle-plot" value="1" checked>Carbon in the bulk</label>
+                    <label class="checkbox-inline"><input type="checkbox" class="toggle-plot" value="1" checked>Carbon bulk</label>
                     <label class="checkbox-inline"><input type="checkbox" class="toggle-plot" value="2">Vickers hardness profile</label>
                 </p>
                 <p>
@@ -157,7 +157,7 @@
                         <div class="form-row">
                             <div class="col-md-4 col-sm-6 col-xs-6">
                                 <div class="form-group">
-                                    <label class="control-label col-sm-8" for="c0">Bulk carbon content (%wt.)</label>
+                                    <label class="control-label col-sm-8" for="c0">Bulk carbon content (wt.%)</label>
                                     <div class="col-sm-4"><input value="0.2" min=0 step=".1" type="number" name="c0" id="c0" class="param form-control" pattern="[0-9]*"></div>
                                 </div>
                             </div>
@@ -165,7 +165,7 @@
                         <div class="form-row">
                             <div class="col-md-4 col-sm-6 col-xs-6">
                                 <div class="form-group">
-                                    <label class="control-label col-sm-8" for="cs">Carbon in the surface (%wt.)</label>
+                                    <label class="control-label col-sm-8" for="cs">Carbon in the surface (wt.%)</label>
                                     <div class="col-sm-4"><input value="0.8" min=0 step="0.1" type="number" name="cs" id="cs" class="param form-control" pattern="[0-9]*"></div>
                                 </div>
                             </div>

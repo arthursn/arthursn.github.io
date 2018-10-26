@@ -239,7 +239,7 @@ $(function() {
 
     var p = getParams();
     var data = compute(p)
-    var labels = ['Posição', 'Teor de carbono', 'Carbono matriz', 'Dureza'];
+    var labels = ['Position', 'Carbon content', 'Carbon bulk', 'Hardness'];
     var visibility = {0: true, 1: true, 2: false};
     $.each(visibility, function(i, v) {
         $(".toggle-plot[value="+i+"]").attr("checked", v);
@@ -247,15 +247,15 @@ $(function() {
     var graph = new Dygraph($("#chart")[0], data, {
             labels: labels,
             visibility: visibility,
-            xlabel: 'Posição (' + p.units.length.s + ')',
-            ylabel: 'Concentração de carbono (% peso)',
-            y2label: 'Dureza (HV)',
+            xlabel: 'Position (' + p.units.length.s + ')',
+            ylabel: 'Carbon content (wt.%)',
+            y2label: 'Hardness (HV)',
             axes: {
                 y: {valueRange: [0, x2w(p.cs)*120]}
                 // y2: {valueRange: [0, 1000]}
             },
             series: {
-                "Dureza": {
+                "Hardness": {
                     axis: "y2"
                 }
             }
