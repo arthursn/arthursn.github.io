@@ -1,86 +1,214 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
 <html>
+
 <head>
-<title>Carburizing</title>
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<!-- dygraphs -->
-<script type="text/javascript" src="js/dygraph-combined.min.js"></script>
-<style type="text/css">
-	body, input {
-		font-family: sans-serif;
-		font-size: 14px;
-	}
-	input.param {
-		margin-right: 30px;
-		width: 60px;
-	}
-	input.disabled {
-		color: #999;
-	}
-	input.outrange {
-		color: #f00;
-		font-weight: bold;
-	}
-	
-	.container {
-		width: 700px;
-		margin: 0 auto;
-	}
 
-	table#params {
-		margin-top: 30px;
-	}
-	div#chart {
-		width: 700px;
-		height: 400px;
-	}
-	input#compute {
-		margin-top: 20px;
-	}
-</style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="theme-color" content="#222222">
+
+    <title>Simple diffusion model</title>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+    <!-- URI.js -->
+    <script src="js/URI.js"></script>
+
+    <!-- Bootstrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    
+    <!-- dygraphs -->
+    <script type="text/javascript" src="js/dygraph-combined.min.js"></script>
+
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            TeX: {equationNumbers: {autoNumber: "AMS"}},
+            tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+        });
+    </script>
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <style type="text/css">
+        label {
+            font-weight: normal;
+        }
+
+        .tmin, .Lmax {
+            color: #f00;
+        }
+        .params {
+            margin-top: 30px;
+        }
+
+        #chart {
+            width: 100%;
+            height: 400px;
+        }
+    </style>
 </head>
+
 <body>
-	<div class="container">
-		<div id="chart"></div>
-		<table id="params">
-			<tr>
-				<td><label for="TC">Temperature (°C)</label></td>
-				<td><input value="900" name="TC" id="TC" class="param"></td>
+    <!-- Page Content -->
+    <div class="container" id="main-content">        
+        <div class="row">
+            <div class="col-lg-12">
+                <p><b>Modelo:</b></p>
+                <p>
+                    <label class="radio-inline"><input type="radio" name="model" value="ct">$D$ constant (calculated for $c_0$)</label>
+                    <label class="radio-inline"><input type="radio" name="model" value="var" checked>$D$ varying with $c$ composition</label>
+                </p>
 
-				<td><label for="t">Time (min)</label></td>
-				<td><input value="180" name="t" id="t" class="param"></td>
-			</tr>
-			<tr>
-				<td><label for="L">Length (mm)</label></td>
-				<td><input value="5.0" name="L" id="L" class="param"></td>
+                <p><b>Mostrar:</b></p>
+                <p>
+                    <label class="checkbox-inline"><input type="checkbox" class="toggle-plot" value="0" checked>Carbon profile</label>
+                    <label class="checkbox-inline"><input type="checkbox" class="toggle-plot" value="1" checked>Carbon in the bulk</label>
+                    <label class="checkbox-inline"><input type="checkbox" class="toggle-plot" value="2">Vickers hardness profile</label>
+                </p>
+                <p>
+                    <input type="button" class="btn btn-default" id="select-all" value="Select all">
+                    <input type="button" class="btn btn-default" id="clean-all" value="Clean all">
+                </p>
 
-				<td><label for="n">Grid size</label></td>
-				<td><input value="50" name="n" id="n" class="param"></td>
-			</tr>
-			<tr>
-				<td><label for="rmax">Maximum allowed value of r (dimensionless)</label></td>
-				<td><input value="0.1" name="rmax" id="rmax" class="param"></td>
+                <div id="chart"></div>
+            </div>
+        </div>
 
-				<td><label for="nit">Number of iterations (max. 20000)</label></td>
-				<td><input name="nit" id="nit" class="param disabled" readonly></td>
-			</tr>
-			<tr>
-				<td><label for="c0">Bulk carbon content (wt.%)</label></td>
-				<td><input value="0.2" name="c0" id="c0" class="param"></td>
+        <div class="row params">
+            <div class="col-lg-12">
+                <div class="help-box"></div>
 
-				<td><label for="cs">Carbon content in the surface (wt.%)</label></td>
-				<td><input value="1.0" name="cs" id="cs" class="param"></td>
-			</tr>
-		</table>
+                <div class="form-horizontal" id="params">
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-4 col-sm-6 col-xs-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-8" for="u-length">Length unit</label>
+                                    <div class="col-sm-4">
+                                        <select name="u-length" id="u-length" class="param form-control" pattern="[0-9]*">
+                                            <option value="m">m</option>
+                                            <option value="cm">cm</option>
+                                            <option value="mm" selected>mm</option>
+                                            <option value="um">&mu;m</option>
+                                            <option value="nm">nm</option>
+                                            <option value="A">&#8491;</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-4 col-sm-6 col-xs-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-8" for="u-time">Time unit</label>
+                                    <div class="col-sm-4">
+                                        <select name="u-time" id="u-length" class="param form-control" pattern="[0-9]*">
+                                            <option value="h" selected>h</option>
+                                            <option value="min">min</option>
+                                            <option value="s">s</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-		<button id="exportcsv" class="btn btn-default">Download CSV</button>
-        <a id="linkcsv"></a>
-        <button id="exporttxt" class="btn btn-default">Download TXT</button>
-        <a id="linktxt"></a>
-	</div>
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-4 col-sm-6 col-xs-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-8" for="TC">Temperature (°C)</label>
+                                    <div class="col-sm-4"><input value="1000" min=0 step="10" type="number" name="TC" id="TC" class="param form-control" pattern="[0-9]*"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-4 col-sm-6 col-xs-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-8" for="t">Time (<span class="u-time"></span>) <span class="tmin"></span></label>
+                                    <div class="col-sm-4"><input value="1" min=0 step="0.5" type="number" name="t" id="t" class="param form-control" pattern="[0-9]*"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-4 col-sm-6 col-xs-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-8" for="L">Thickness of the austenite region (<span class="u-length"></span>) <span class="Lmax"></span></label>
+                                    <div class="col-sm-4"><input value="10.0" min=0 step="1" type="number" name="L" id="L" class="param form-control" pattern="[0-9]*"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-4 col-sm-6 col-xs-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-8" for="c0">Bulk carbon content (%wt.)</label>
+                                    <div class="col-sm-4"><input value="0.2" min=0 step=".1" type="number" name="c0" id="c0" class="param form-control" pattern="[0-9]*"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-4 col-sm-6 col-xs-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-8" for="cs">Carbon in the surface (%wt.)</label>
+                                    <div class="col-sm-4"><input value="0.8" min=0 step="0.1" type="number" name="cs" id="cs" class="param form-control" pattern="[0-9]*"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-	<script src="js/carburizing.js"></script>
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-4 col-sm-6 col-xs-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-8" for="n">Grid spacing</label>
+                                    <div class="col-sm-4"><input value="100" min=0 step="0.1" type="number" name="n" id="n" class="param form-control" pattern="[0-9]*" readonly></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-4 col-sm-6 col-xs-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-8" for="rmax">Maximum value of $r$ allowed (dimensionless)</label>
+                                    <div class="col-sm-4"><input value="0.1" min=0 step="0.1" type="number" name="rmax" id="rmax" class="param form-control" pattern="[0-9]*" readonly></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-4 col-sm-6 col-xs-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-8" for="nit">Number of iterations</label>
+                                    <div class="col-sm-4"><input value="1000" min=0 step="1" type="number" name="nit" id="nit" class="param form-control" pattern="[0-9]*" readonly></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button id="exportcsv" class="btn btn-default">Download CSV</button>
+                <a id="linkcsv"></a>
+                <button id="exporttxt" class="btn btn-default">Download TXT</button>
+                <a id="linktxt"></a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/carburizing.js"></script>
 </body>
+
 </html>
