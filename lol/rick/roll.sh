@@ -88,10 +88,8 @@ try:
       next_frame = elapsed / time_per_frame
     if frame >= next_frame:
       if i % nlines < nrows - 1:
-        chars = line.split('\xa0')
-        buf += '\xa0'.join(chars[:ncols])
-        if len(chars) > ncols:
-          buf += '\xa0\x1b[0m\n'
+        chars = line.split('\xa0')[:-1]
+        buf += '\xa0'.join(chars[:ncols]) + '\xa0\x1b[0m\n'
 except KeyboardInterrupt:
   pass
 EOF
