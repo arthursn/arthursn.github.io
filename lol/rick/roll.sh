@@ -69,21 +69,29 @@ audpid=$!
 python <(cat <<EOF
 import sys
 import time
-fps = 25; time_per_frame = 1.0 / fps
+nrows, ncols = '$(stty size)'.split()
+nrows, ncols = int(nrows), int(ncols)
+nlines = 30
+fps = 30; time_per_frame = 1.0 / fps
 buf = ''; frame = 0; next_frame = 0
 begin = time.time()
 try:
   for i, line in enumerate(sys.stdin):
-    if i % 32 == 0:
+    if i % nlines == 0:
       frame += 1
-      sys.stdout.write(buf); buf = ''
+      sys.stdout.write(buf)
+      buf = ''
       elapsed = time.time() - begin
       repose = (frame * time_per_frame) - elapsed
       if repose > 0.0:
         time.sleep(repose)
       next_frame = elapsed / time_per_frame
     if frame >= next_frame:
-      buf += line
+      if i % nlines < nrows - 1:
+        chars = line.split('\xa0')
+        buf += '\xa0'.join(chars[:ncols])
+        if len(chars) > ncols:
+          buf += '\xa0\x1b[0m\n'
 except KeyboardInterrupt:
   pass
 EOF
