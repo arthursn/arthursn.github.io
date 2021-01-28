@@ -27,14 +27,14 @@ usage () {
   echo -e "${purp}OPTIONS : ${yell}"
   echo -e " help   - Show this message."
 }
-for arg in "$@"; do
-  if [[ "$arg" == "help"* || "$arg" == "-h"* || "$arg" == "--h"* ]]; then
-    usage && exit
-  else
-    echo -e "${red}Unrecognized option: \"$arg\""
-    usage && exit
-  fi
-done
+# for arg in "$@"; do
+#   if [[ "$arg" == "help"* || "$arg" == "-h"* || "$arg" == "--h"* ]]; then
+#     usage && exit
+#   else
+#     echo -e "${red}Unrecognized option: \"$arg\""
+#     usage && exit
+#   fi
+# done
 trap "cleanup" INT
 trap "quit" EXIT
 
@@ -69,7 +69,7 @@ audpid=$!
 python <(cat <<EOF
 import sys
 import time
-nrows, ncols = '$(stty size)'.split()
+nrows, ncols = '$(stty size || echo "30 80")'.split()
 nrows, ncols = int(nrows), int(ncols)
 nlines = 30
 fps = 30; time_per_frame = 1.0 / fps
