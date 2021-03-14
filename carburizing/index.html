@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
     <meta charset="utf8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,27 +10,16 @@
 
     <title>Carburizing model</title>
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    
-    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
-    <!-- URI.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.6/URI.min.js" integrity="sha512-W3prM2BMb4lI5HRwh1jFzURjpTueG9Tt3GK9q1Vb8w3T6SjZSDpyj6svha8pojrRPEDrz30LpnMLcFzgPkrmTQ==" crossorigin="anonymous"></script>
-
-    <!-- Bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.6/URI.min.js" integrity="sha512-W3prM2BMb4lI5HRwh1jFzURjpTueG9Tt3GK9q1Vb8w3T6SjZSDpyj6svha8pojrRPEDrz30LpnMLcFzgPkrmTQ==" crossorigin="anonymous"></script>
     
-    <!-- dygraphs -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.min.js"></script>    
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.min.css" />
 
-    <!-- MathJax -->
     <script type="text/x-mathjax-config">
         MathJax.Hub.Config({
             TeX: {equationNumbers: {autoNumber: "AMS"}},
@@ -41,9 +29,6 @@
     <script type="text/javascript" async
         src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML">
     </script>
-
-    <!-- Bootstrap -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
     <style type="text/css">
         label {
@@ -69,6 +54,8 @@
     <div class="container" id="main-content">        
         <div class="row">
             <div class="col-lg-12">
+                <h2 class="page-header">Carburizing model</h2>
+
                 <p><b>Model:</b></p>
                 <p>
                     <label class="radio-inline"><input type="radio" name="model" value="ct">$D$ constant (calculated for $c_0$)</label>

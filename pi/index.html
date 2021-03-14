@@ -17,19 +17,21 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></p>
+    <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 
 <body>
     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-12">
                 <h2 id="pi" class="pb-2 mt-4 mb-4 border-bottom">Approximations of \(\pi\)</h2>
 
                 <div id="piFormulas"></div>
 
                 <div id="piChart"></div>
+            </div>
 
+            <div class="col-12">
                 <table id="piApproximations" class="table"></table>
             </div>
         </div>
@@ -137,7 +139,19 @@
             },
             yaxis: {
                 title: "π approximation"
+            },
+             legend: {
+                orientation: "h",
+                y: 1
+            },
+            margin: {
+                l: 0,
+                r: 0,
+                t: 20,
             }
+        },
+        {
+            responsive: true
         });
 
         // Print table with approximations

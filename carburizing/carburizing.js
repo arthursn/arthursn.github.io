@@ -2,37 +2,37 @@
 
 // Global variables and functions
 
-var K = 273.15;     // 0 Celsius in Kelvin
-var R = 8.3144598;  // Gas constant in J/mol.K
+const K = 273.15;     // 0 Celsius in Kelvin
+const R = 8.3144598;  // Gas constant in J/mol.K
 
-var w2x = function(x) {
+function w2x(x) {
     // Converts weight fraction to mole fraction in a binary Fe-C alloy
     return (x/12)/(x/12 + (1-x)/56);
 };
 
-var x2w = function(x) {
+function x2w(x) {
     // Converts mole fraction to weight fraction in a binary Fe-C alloy
     return 12*x/(12*x + 56*(1-x));
 };
 
-var D = function(TC, xC) {
+function D(TC, xC) {
     // Diffusion coefficient of austenite according to Agren, 1985 
     // TC: Temperature in Celsius; xC: mole fraction of carbon     
     // Return D in um^2/s                                          
-    var T = TC + K;
-    var yC = xC/(1 - xC);
+    let T = TC + K;
+    let yC = xC/(1 - xC);
 
-    var preExp = 4.53e5*(1 + yC*(1 - yC)*8339.9/T);
-    var exp = -(1/T - 2.221e-4)*(17767 - 26436*yC);
+    let preExp = 4.53e5*(1 + yC*(1 - yC)*8339.9/T);
+    let exp = -(1/T - 2.221e-4)*(17767 - 26436*yC);
     return preExp*Math.exp(exp);    // um^2/s
 };
 
-var w2H = function(w, type="HV") {
+function w2H(w, type="HV") {
     // Given a weight carbon percentage w, returns the expected hardness of the
     // martensitic structure.
     // w: weight carbon percentage; type: HV or HRC, the output hardness type
     // Data from A. Litwinchuk et al., J. Material Science, Vol. 11, 1976, p. 1200.
-    var H;
+    let H;
     if (type == "HV") {
         H = -127.19061329*Math.pow(w,5) + 907.03314744*Math.pow(w,4) - 2048.52805601*Math.pow(w,3) + 1141.48291358*Math.pow(w,2) + 695.18294151*w + 263.04598012;
     } else {
@@ -42,10 +42,10 @@ var w2H = function(w, type="HV") {
 }
 
 $(function() {
-    var calculate = function() {
-        var c0 = parseFloat($("#calculator [name=c0-calc]").val());
-        var TC = parseFloat($("#calculator [name=TC-calc]").val());
-        var DD = D(TC, w2x(c0/100.))*1e-12;
+    function calculate() {
+        let c0 = parseFloat($("#calculator [name=c0-calc]").val());
+        let TC = parseFloat($("#calculator [name=TC-calc]").val());
+        let DD = D(TC, w2x(c0/100.))*1e-12;
         $("#calculator [name=D-calc]").val(DD.toPrecision(4));
     };
     calculate();
@@ -56,9 +56,9 @@ $(function() {
 });
 
 $(function() {
-    var Tr = 25;        // Room temperature
-    var maxn = 1000;    // max grid size
-    var conversion = {
+    const Tr = 25;        // Room temperature
+    const maxn = 1000;    // max grid size
+    const conversion = {
         length: {  // *unit* to um
             m: 1e6,
             cm: 1e4, 
@@ -73,20 +73,20 @@ $(function() {
             h: 3600,
             d: 86400
         }
-    };
-    var oldunits = {}
-    // var warningMessage = "Tempo muito curto ou espessura muito grande para a temperatura escolhida. Isso faz que a grade fique muito refinada e a simulação demore demais.<br>Escolha parâmetros diferentes (<b>tempo maior, espessura menor ou temperatura maior</b>).";
-    var warningMessage = "Time too short or austenite region too thick for the chosen temperature. This leads to a to fine grid and the simulation takes too long. Please choose different parameters (<b>longer time, narrower thickness, or higher temperature</b>).";
+    }
+    let oldunits = {}
+    // const warningMessage = "Tempo muito curto ou espessura muito grande para a temperatura escolhida. Isso faz que a grade fique muito refinada e a simulação demore demais.<br>Escolha parâmetros diferentes (<b>tempo maior, espessura menor ou temperatura maior</b>).";
+    const warningMessage = "Time too short or austenite region too thick for the chosen temperature. This leads to a to fine grid and the simulation takes too long. Please choose different parameters (<b>longer time, narrower thickness, or higher temperature</b>).";
 
-    var getUnits = function() {
-        var uLength = $("select[name=u-length]").val();
-        var uTime = $("select[name=u-time]").val();
+    function getUnits() {
+        let uLength = $("select[name=u-length]").val();
+        let uTime = $("select[name=u-time]").val();
         // units string
-        var sLength = $("select[name=u-length] option:checked").html();
-        var sTime = $("select[name=u-time] option:checked").html();
+        let sLength = $("select[name=u-length] option:checked").html();
+        let sTime = $("select[name=u-time] option:checked").html();
         // conversion factors
-        var fLength = conversion.length[uLength];
-        var fTime = conversion.time[uTime];
+        let fLength = conversion.length[uLength];
+        let fTime = conversion.time[uTime];
 
         return {
             length: {
@@ -100,20 +100,20 @@ $(function() {
         };
     };
 
-    var getParams = function() {
+    function getParams() {
         // units
-        var units = getUnits();
+        let units = getUnits();
 
         $(".u-length").html(units.length.s);
         $(".u-time").html(units.time.s);
 
         // Gets parameters from input fields, evaluates some other variables, and returns object
-        var model = $("input[name=model]:checked").val();   // Model type (D constant of as function of c)
-        var TC = eval($("input[name=TC]").val());           // Temperature in °C
-        var c0 = eval($("input[name=c0]").val());           // wt.% C in the bulk
-        var cs = eval($("input[name=cs]").val());           // wt.% C at the surface
-        var L = eval($("input[name=L]").val())/2;           // Length of the simulation domain (mm)
-        var t = eval($("input[name=t]").val());             // time in minutes
+        let model = $("input model[name=model]:checked").val();   // Model type (D constant of as function of c)
+        let TC = eval($("input[name=TC]").val());           // Temperature in °C
+        let c0 = eval($("input[name=c0]").val());           // wt.% C in the bulk
+        let cs = eval($("input[name=cs]").val());           // wt.% C at the surface
+        let L = eval($("input[name=L]").val())/2;           // Length of the simulation domain (mm)
+        let t = eval($("input[name=t]").val());             // time in minutes
 
         if (typeof oldunits.length !== "undefined") {
             L = L*oldunits.length.f/units.length.f;
@@ -134,18 +134,18 @@ $(function() {
         t = t*units.time.f;     // time in s
 
         // Simulation parameters
-        var rmax = parseFloat($("input[name=rmax]").val());    // maximum allowed value of r
-        var nit = parseInt($("input[name=nit]").val());        // number of iterations
+        let rmax = parseFloat($("input[name=rmax]").val());    // maximum allowed value of r
+        let nit = parseInt($("input[name=nit]").val());        // number of iterations
 
-        var Dmax = Math.max(D(TC, c0), D(TC, cs));  // max carbon diffusivity (um^2/s)
-        var dt = t/nit;                             // time step (s)
-        var dz = Math.sqrt(dt*Dmax/rmax);           // length step (um)
-        var n = Math.round(L/dz + 1)                // grid size
+        let Dmax = Math.max(D(TC, c0), D(TC, cs));  // max carbon diffusivity (um^2/s)
+        let dt = t/nit;                             // time step (s)
+        let dz = Math.sqrt(dt*Dmax/rmax);           // length step (um)
+        let n = Math.round(L/dz + 1)                // grid size
         dz = L/(n-1);                               // recalculates dz
         
-        var k = rmax*nit/(Dmax*Math.pow(maxn-1, 2));
-        var tmin = k*L*L/units.time.f;              // tmin (min)
-        var Lmax = 2*Math.sqrt(t/k)/units.length.f; // Lmax (mm)
+        let k = rmax*nit/(Dmax*Math.pow(maxn-1, 2));
+        let tmin = k*L*L/units.time.f;              // tmin (min)
+        let Lmax = 2*Math.sqrt(t/k)/units.length.f; // Lmax (mm)
         
         if (parseInt(tmin) > 1) {
             tmin = parseInt(tmin);
@@ -169,21 +169,21 @@ $(function() {
                 "units": units, "model": model};
     }
 
-    var compute = function(p) {
+    function compute(p) {
         // Gets parameters p and runs simulation
-        var data = [[0, 0, 0]];
+        let data = [[0, 0, 0]];
         if (p.n == 1) {  // if gridsize is too small it's because the diffusion occurs too fast
             data = [[0, 100*x2w(p.cs), 100*x2w(p.c0)], [2*p.L/p.units.length.f, 100*x2w(p.cs), 100*x2w(p.c0)]];
         } else if (p.n <= maxn) {
-            var r, g;
-            var c = Array.apply(null, Array(p.n)).map(Number.prototype.valueOf, p.c0);
+            let r, g;
+            let c = Array.apply(null, Array(p.n)).map(Number.prototype.valueOf, p.c0);
             c[0] = p.cs;
-            var c1 = new Array(p.n);
+            let c1 = new Array(p.n);
 
             // Explicit finite differences method
             if (p.model == "var") {
-                for (var it = 0; it < p.nit; ++it) {
-                    for (var i = 1; i < c.length; ++i) {
+                for (let it = 0; it < p.nit; ++it) {
+                    for (let i = 1; i < c.length; ++i) {
                         r = D(p.TC, c[i])*p.dtdz2;  // r term
                         g = .25*(D(p.TC, c[i+1]) - D(p.TC, c[i-1]))*p.dtdz2;    // gradient term
                         c1[i] = (r - g)*c[i-1] + (1 - 2*r)*c[i] + (r + g)*c[i+1];
@@ -193,9 +193,9 @@ $(function() {
                     c = c1.slice(0);    // make a copy of c1 to c
                 }
             } else {
-                var Dct = D(p.TC, p.c0);
-                for (var it = 0; it < p.nit; ++it) {
-                    for (var i = 1; i < c.length; ++i) {
+                let Dct = D(p.TC, p.c0);
+                for (let it = 0; it < p.nit; ++it) {
+                    for (let i = 1; i < c.length; ++i) {
                         r = Dct*p.dtdz2;  // r term
                         c1[i] = r*(c[i-1] + c[i+1]) + (1 - 2*r)*c[i];
                     }
@@ -205,11 +205,11 @@ $(function() {
                 }
             }
 
-            var z, ci, Hi;
-            var c0 = 100*x2w(p.c0);
-            var dataLeft = [];
-            var dataRight = [];
-            for (var i = 0; i < c.length; ++i) {
+            let z, ci, Hi;
+            let c0 = 100*x2w(p.c0);
+            let dataLeft = [];
+            let dataRight = [];
+            for (let i = 0; i < c.length; ++i) {
                 ci = 100*x2w(c[i]);
                 Hi = w2H(ci);
 
@@ -224,7 +224,7 @@ $(function() {
         return data;
     };
 
-    var alertBox = function(p) {
+    function alertBox(p) {
         if (p.n > maxn) {
             $(".help-box").html("<div class='alert alert-danger'>");
             $(".help-box > .alert-danger").html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;").append("</button>");;
@@ -237,14 +237,14 @@ $(function() {
 
     /****************** Events ****************/
 
-    var p = getParams();
-    var data = compute(p)
-    var labels = ['Position', 'Carbon content', 'Carbon bulk', 'Hardness'];
-    var visibility = {0: true, 1: true, 2: false};
+    let p = getParams();
+    let data = compute(p)
+    let labels = ['Position', 'Carbon content', 'Carbon bulk', 'Hardness'];
+    let visibility = {0: true, 1: true, 2: false};
     $.each(visibility, function(i, v) {
         $(".toggle-plot[value="+i+"]").attr("checked", v);
     });
-    var graph = new Dygraph($("#chart")[0], data, {
+    let graph = new Dygraph($("#chart")[0], data, {
             labels: labels,
             visibility: visibility,
             xlabel: 'Position (' + p.units.length.s + ')',
@@ -265,7 +265,7 @@ $(function() {
     $("#params .form-control, input[name=model]").change(function(){
         // Event triggered when changing value in input field. If gridsize is bigger
         // than maxn, shows alert message. Otherwise, runs simulation
-        var p = getParams();
+        let p = getParams();
         data = compute(p);
         graph.updateOptions({
                 file: data,
@@ -292,13 +292,13 @@ $(function() {
 
     $("#exportcsv").click(function() {
         // Exports data as csv file
-        var fileContent = "data:text/csv;charset=utf-8,";
+        let fileContent = "data:text/csv;charset=utf-8,";
         fileContent += labels.join(",") + "\n";
         fileContent = data.reduce(function(a, b) {
             return a + b.join(",") + "\n";
         }, fileContent);
-        var encodeUri = encodeURI(fileContent);
-        var link = $("#linkcsv");
+        let encodeUri = encodeURI(fileContent);
+        let link = $("#linkcsv");
         link.attr("href", encodeUri);
         link.attr("download", "data.csv");
         link[0].click();
@@ -306,13 +306,13 @@ $(function() {
 
     $("#exporttxt").click(function() {
         // Exports data as text file
-        var fileContent = "data:text/plain;charset=utf-8,";
+        let fileContent = "data:text/plain;charset=utf-8,";
         fileContent += "#" + labels.join(", ") + "\n";
         fileContent = data.reduce(function(a, b) {
             return a + b.join(" ") + "\n";
         }, fileContent);
-        var encodeUri = encodeURI(fileContent);
-        var link = $("#linktxt");
+        let encodeUri = encodeURI(fileContent);
+        let link = $("#linktxt");
         link.attr("href", encodeUri);
         link.attr("download", "data.txt");
         link[0].click();
