@@ -111,7 +111,7 @@ $(function() {
         var model = $("input[name=model]:checked").val();   // Model type (D constant of as function of c)
         var TC = eval($("input[name=TC]").val());           // Temperature in °C
         var c0 = eval($("input[name=c0]").val());           // wt.% C in the bulk
-        var cs = eval($("input[name=cs]").val());           // wt.% C in the surface
+        var cs = eval($("input[name=cs]").val());           // wt.% C at the surface
         var L = eval($("input[name=L]").val())/2;           // Length of the simulation domain (mm)
         var t = eval($("input[name=t]").val());             // time in minutes
 
@@ -273,7 +273,7 @@ $(function() {
                     y: {valueRange: [0, x2w(Math.max(p.c0, p.cs))*120]}
                     // y2: {valueRange: [0, 1000]}
                 },
-                xlabel: 'Posição (' + p.units.length.s + ')'
+                xlabel: 'Position (' + p.units.length.s + ')'
             });  // updates plotting range
         alertBox(p);
     });

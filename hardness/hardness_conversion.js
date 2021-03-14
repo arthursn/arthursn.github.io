@@ -1,6 +1,6 @@
 "use strict";
 
-var methods = {
+const methods = {
     HV: {
         name: "HV",
         description: "Vickers (HV)",
@@ -73,32 +73,39 @@ var methods = {
     }
 };
 
-$(function(){
-    var fromSet = [];
+$(function() {
+    let fromSet = [];
     $.each($("#from option"), function(i, obj){
         fromSet.push($(obj).val());
     });
 
-    var toSet = [];
+    let toSet = [];
     $.each($("#to option"), function(i, obj){
         toSet.push($(obj).val());
     });
 
-    var sortNumber = function(a, b){
-        return a-b;
-    };
-
-    var setParamsUrl = function(p) {
+    function setParamsUrl(p) {
         history.pushState(null, null, URI().search({from: p.from, to: p.to}).href());
-    };
+    }
 
-    var getParams = function(fromUrl) {
+    function parseString(s) {
+        // Remove leading trailing parenthesis
+        let last = s.length - 1;
+        if (s[0] == "(" && s[last] == ")")
+            s = s.substring(1, last);
+        let v = Number(s);
+        if (!isFinite(v))
+            throw "Not a number";
+        return v;
+    }
+
+    function getParams(fromUrl) {
         /* Gets parameters and returns JSON object */
-        var from = $("#from").val();    // Hardness type of the original values
-        var to = $("#to").val();    // Hardness type of the converted values
-        
+        let from = $("#from").val();    // Hardness type of the original values
+        let to = $("#to").val();    // Hardness type of the converted values
+
         if (fromUrl) {
-            var pQuery = URI.parseQuery(URI().query());
+            let pQuery = URI.parseQuery(URI().query());
             if (typeof pQuery.from !== "undefined") {
                 if ($.inArray(pQuery.from, fromSet) >= 0) {
                     from = pQuery.from;
@@ -114,70 +121,78 @@ $(function(){
         }
 
         try {
-            var Hfrom = eval("["+$("#Hfrom").val()+"]");    // Evaluate original hardness values to a list
-            var Hfromstr = [];
+            let valuesFrom = $("#values-from").val().split(/(\s+)/).filter(e => e.trim().length > 0).map(parseString);
+            let valuesFromStr = [];
 
-            Hfrom.forEach(function(el, i, arr){
+            valuesFrom.forEach(function(el, i, arr){
                 if (el < methods[from].rng[0] || el > methods[from].rng[1]) {
-                    Hfromstr.push("(" + arr[i] + ")");
+                    valuesFromStr.push("(" + arr[i] + ")");
                 } else {
-                    Hfromstr.push(arr[i]);
+                    valuesFromStr.push(arr[i]);
                 }
             });
-            Hfromstr = Hfromstr.join(", ")
-            $("#Hfrom").val(Hfromstr);
+            valuesFromStr = valuesFromStr.join(" ")
+            $("#values-from").val(valuesFromStr);
 
-            $(".has-warning .help-block").css("display", "none");
-            $("#Hfrom").parent().removeClass("has-warning");
+            $(".invalid .invalid-feedback").css("display", "none");
+            $("#values-from").parent().removeClass("invalid");
 
-            return {success: true, from: from, to: to, Hfrom: Hfrom};
+            return {
+                success: true,
+                from: from,
+                to: to,
+                valuesFrom: valuesFrom
+            };
         } catch(e) {
-            $("#Hfrom").parent().addClass("has-warning");
-            $(".has-warning .help-block").css("display", "");
+            console.log(e);
+
+            $("#values-from").parent().addClass("invalid");
+            $(".invalid .invalid-feedback").css("display", "block");
 
             return {success: false};
         }
     }
 
-    var convert = function(p) {
+    function convert(p) {
         /* Receives JSON object p containing parameters and makes interpolation */
 
-        var lt1 = Math.min(methods[p.from].t1.length, methods[p.to].t1.length);
-        var lt2 = Math.min(methods[p.from].t2.length, methods[p.to].t2.length);
-        var Hsetfrom, Hsetto;   // dataset used in the interpolation
+        let lt1 = Math.min(methods[p.from].t1.length, methods[p.to].t1.length);
+        let lt2 = Math.min(methods[p.from].t2.length, methods[p.to].t2.length);
+        let datasetFrom, datasetTo;   // dataset used in the interpolation
         if (lt2 != 0) {
             // concatenates and sorts data from tables t1 and t2 for 'p.from' and 'p.to' data
-            Hsetfrom = methods[p.from].t2.slice(-lt2).concat(methods[p.from].t1.slice(0,lt1)).sort(sortNumber);
-            Hsetto = methods[p.to].t2.slice(-lt2).concat(methods[p.to].t1.slice(0,lt1)).sort(sortNumber);
+            datasetFrom = methods[p.from].t2.slice(-lt2).concat(methods[p.from].t1.slice(0,lt1)).sort(a => b => a - b);
+            datasetTo = methods[p.to].t2.slice(-lt2).concat(methods[p.to].t1.slice(0,lt1)).sort(a => b => a - b);
         } else {
-            Hsetfrom = methods[p.from].t1.slice(0,lt1);
-            Hsetto = methods[p.to].t1.slice(0,lt1);
+            datasetFrom = methods[p.from].t1.slice(0,lt1);
+            datasetTo = methods[p.to].t1.slice(0,lt1);
         }
 
-        if (Hsetto.length == Hsetfrom.length) {
-            // Just in case... Hsetto should never have a different length than Hsetfrom
-            if (Hsetto.length == 0) {
-                Hto = "Insufficient data for interpolation";
+        let valuesTo;
+        if (datasetTo.length == datasetFrom.length) {
+            // Just in case... datasetTo should never have a different length than datasetFrom
+            if (datasetTo.length == 0) {
+                valuesTo = "Insufficient data for interpolation";
             } else {
                 if (p.from !== undefined) {
                     // Everpolate FUCK YEAH!
-                    var Hto = everpolate.linear(p.Hfrom, Hsetfrom, Hsetto);   // Converted hardness values
-                    Hto.forEach(function(el, i, arr){
-                        // Set converted hardness values to "methods[to].ndec" decimal places and put values 
+                    valuesTo = everpolate.linear(p.valuesFrom, datasetFrom, datasetTo);   // Converted hardness values
+                    valuesTo.forEach(function(el, i, arr){
+                        // Set converted hardness values to "methods[to].ndec" decimal places and put values
                         // into round brackets if out of range
                         arr[i] = el.toFixed(methods[p.to].ndec);
                         if (el < methods[p.to].rng[0] || el > methods[p.to].rng[1]) {
                             arr[i] = "(" + arr[i] + ")";
                         }
                     });
-                    Hto = Hto.join(", ")  // Converts array Hto to string
+                    valuesTo = valuesTo.join(" ")  // Converts array valuesTo to string
                 }
             }
         } else {
             console.log("Lengths differ");
         }
 
-        return Hto;
+        return valuesTo;
     };
 
     /****** EVENTS ******/
@@ -190,19 +205,31 @@ $(function(){
     getParams(true);    // getParams from URL query
 
     $("select").change(function(){
-        var p = getParams();
+        let p = getParams();
         if (p.success == true) {
-            var Hto = convert(p);
-            $("#Hto").val(Hto);  // Set converted hardness to input field
+            $("#values-to").val(convert(p));  // Set converted hardness to input field
             setParamsUrl(p);
         }
     });
 
-    $("input#Hfrom").change(function(){
-        var p = getParams();
+    $("#values-from").change(function(){
+        let p = getParams();
         if (p.success == true) {
-            var Hto = convert(p);
-            $("#Hto").val(Hto);  // Set converted hardness to input field
+            $("#values-to").val(convert(p));  // Set converted hardness to input field
         }
+    });
+
+    $("#switch-scales").click(function(){
+        let from = $("#from").val();
+        let to = $("#to").val();
+        let valuesTo = $("#values-to").val();
+
+        $("#from").val(to);
+        $("#values-from").val(valuesTo);
+        $("#to").val(from);
+
+        let p = getParams();
+        setParamsUrl(p);
+        $("#values-to").val(convert(p));
     });
 });

@@ -1,0 +1,160 @@
+<!DOCTYPE html><html>
+<head>
+    <title>&pi;</title>
+
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></p>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 id="pi" class="pb-2 mt-4 mb-4 border-bottom">Approximations of \(\pi\)</h2>
+
+                <div id="piFormulas"></div>
+
+                <div id="piChart"></div>
+
+                <table id="piApproximations" class="table"></table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function fact (x) {
+           return x == 0 ? 1 : x*fact(x-1);
+        }
+
+        const series = {
+            basel: {
+                name: "Basel",
+                nInit: 1,
+                partialSum: 0,
+                term: function(n) {
+                    return 1./(n * n);
+                },
+                getPi: function() {
+                    return Math.sqrt(6*this.partialSum);
+                },
+                equation: "$$ \\frac{\\pi^2}{6} = \\sum_{n = 1}^{\\infty} \\frac{1}{n^2} $$",
+                maxit: Infinity
+            },
+            gregoryLeibniz: {
+                name: "Gregory-Leibniz",
+                nInit: 0,
+                partialSum: 0,
+                term: function(n) {
+                    return Math.pow(-1, n) * 4. / (2 * n + 1);
+                },
+                getPi: function() {
+                    return this.partialSum;
+                },
+                equation: "$$ \\pi = \\sum_{n = 0}^{\\infty} 4 \\frac{(-1)^n}{2 n + 1} $$",
+                maxit: Infinity
+            },
+            nilakantha: {
+                name: "Nilakantha",
+                nInit: 1,
+                partialSum: 3.,
+                term: function(n) {
+                    return -Math.pow(-1, n) * 4. / (2. * n * (2. * n + 1.) * (2. * n + 2.));
+                },
+                getPi: function() { 
+                    return this.partialSum; 
+                },
+                equation: "$$ \\pi = 3 - \\sum_{n = 1}^{\\infty} 4 \\frac{(-1)^n}{(2 n) (2n + 1) (2n + 2)} $$",
+                maxit: Infinity
+            },
+            ramanujan: {
+                name: "Ramanujan",
+                nInit: 0,
+                partialSum: 0,
+                term: function(n) {
+                    return fact(4 * n) * (1103. + 26390 * n)/(Math.pow(fact(n), 4) * Math.pow(396, 4 * n));
+                },
+                getPi: function() { 
+                    return 9801./(2*Math.sqrt(2.)*this.partialSum); 
+                },
+                equation: "$$ \\frac{1}{\\pi} = \\frac{2 \\sqrt 2}{9801} \\sum_{n = 0}^{\\infty} \\frac{(4 n)!(1103 + 26390 n)}{n!^4 \\left(396^{4 n}\\right)} $$",
+                maxit: 4
+            }
+        };
+
+        const maxit = 50;
+        let data = [];
+        let thead = $("<thead>").append("<tr>");
+        let formulas = $("#piFormulas");
+
+        thead.append("<th scope='col'>#</td>");
+
+        // Loop over each calculation method
+        $.each(series, function(i, method) {
+            thead.append("<th scope='col'>" + method.name + "</td>");
+
+            let divMethod = $("<div>");
+            divMethod.append($("<h3>").text(method.name))
+            divMethod.append($("<p>").text(method.equation));
+            formulas.append(divMethod);
+
+            let trace = {
+                x: [],
+                y: [],
+                mode: "lines+markers",
+                type: "scatter",
+                name: method.name
+            };
+
+            // Apply iterative formulas for approximating pi
+            for (let it = 0, n = method.nInit; it <= Math.min(maxit, method.maxit); it++, n++) {
+                method.partialSum += method.term(n);
+                let pi = method.getPi();
+                trace.x.push(it);
+                trace.y.push(pi);
+            }
+
+            data.push(trace)
+        });
+
+        // Plot pi approximations
+        Plotly.newPlot("piChart", data, {
+            xaxis: {
+                title: "Iterations"
+            },
+            yaxis: {
+                title: "π approximation"
+            }
+        });
+
+        // Print table with approximations
+        let tbody = $("<tbody>");
+
+        for (let it = 0; it <= maxit; it++) {
+            let cntUndef = 0;
+            let row = $("<tr>");
+            row.append($("<td>" + it + "</td>"));
+            $.each(data, function(i, trace) {
+                let cell = $("<td>");
+                if (typeof trace.y[it] !== 'undefined')
+                    cell.append(trace.y[it]);
+                else
+                    cntUndef++;
+                row.append(cell);
+            });
+            if (cntUndef == data.length)
+                break;
+            tbody.append(row);
+        }
+
+        $("table#piApproximations").append(thead);
+        $("table#piApproximations").append(tbody);
+    </script>
+</body>
+</html>

@@ -1,68 +1,59 @@
-<!DOCTYPE html>
-<meta charset="utf-8">
-<html>
+<!DOCTYPE html><html>
 <head>
-<title>Arthur Nishikawa</title>
-<style type="text/css">
-body {
-    font-family: serif;
-    font-size: 20px;
-}
-a {
-    color: #000;
-    text-decoration: none;
-}
-a:hover {
-    text-decoration: underline;
-}
-ul.pageslist {
-    list-style-type: circle;
-}
+    <title>Arthur Nishikawa</title>
 
-.container {
-    margin: 0 auto;
-}
-@media (min-width: 1200px) {
-    .container {
-        width: 1170px;
-    }
-}
-@media (min-width: 992px) {
-    .container {
-        width: 970px;
-    }
-}
-@media (min-width: 768px) {
-    .container {
-        width: 750px;
-    }
-}
-</style>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
+
 <body>
     <div class="container">
-        <h2>Relevant repositories</h2>
-        <ul class="pageslist">
-            <li><a href="https://github.com/arthursn/pyebsd/">pyebsd: python library for post-processing of Electron Backscattered Diffraction (EBSD) data</a></li>
-            <li><a href="https://github.com/arthursn/cpartition">cpartition: python library for modeling carbon redistribution in steels</a></li>
-            <li><a href="https://github.com/arthursn/transformation-diagrams">transformation-diagrams: python scripts for calculating transformation diagrams (TTT and CCT curves) for steels</a></li>
-        </ul>
+        <div class="row">
+            <!-- <div class="col-12 col-md-4 col-lg-3 bd-sidebar navbar-light">
+                <h2 class="pb-2 mt-4 mb-2">Arthur Nishikawa</h2>
+            </div>
+ -->
+            <main class="col-12 col-md-8 col-lg-9 py-4 pl-md-5 bd-content" id="main">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h3>Favorite repositories</h3>
+                        <ul class="pageslist">
+                            <li><a href="https://github.com/arthursn/pyebsd/">pyebsd: python library for post-processing of Electron Backscattered Diffraction (EBSD) data</a></li>
+                            <li><a href="https://github.com/arthursn/cpartition">cpartition: python library for modeling carbon redistribution in steels</a></li>
+                            <li><a href="https://github.com/arthursn/transformation-diagrams">transformation-diagrams: python scripts for calculating transformation diagrams (TTT and CCT curves) for steels</a></li>
+                        </ul>
+                    </div>
+                </div>
 
-        <h2>Javascript tools for Materials Science</h2>
-        <ul class="pageslist">
-            <li><a href="qp.html">Simple model for calculating the optimal quenching temperature in the Q&amp;P process</a></li>
-            <li><a href="fick.html">Finite differences method discretization of Fick's second law</a></li>
-            <li><a href="hardness.html">Hardness conversion tool</a></li>
-            <li><a href="carburizing.html">Simple carburizing model (austenite matrix)</a></li>
-            <!-- <li><a href="mythen.html">Mythen</a></li> -->
-            <!-- <li><a href="rayonix.html">Rayonix</a></li> -->
-        </ul>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h3>Javascript tools for Materials Science</h3>
+                        <ul class="pageslist">
+                            <li><a href="qp">Simple model for calculating the optimal quenching temperature in the Q&amp;P process</a></li>
+                            <!-- <li><a href="fick">Finite differences method discretization of Fick's second law</a></li> -->
+                            <li><a href="hardness">Hardness conversion tool</a></li>
+                            <li><a href="carburizing">Simple carburizing model (austenite matrix)</a></li>
+                            <!-- <li><a href="xtms/mythen">Mythen</a></li>
+                            <li><a href="xtms/rayonix">Rayonix</a></li> -->
+                        </ul>
+                    </div>
+                </div>
 
-        <h2>Miscellaneous</h2>
-        <ul class="pageslist">
-            <!-- <li><a href="plot.html">Javascript tool for data plotting</a></li> -->
-            <li><a href="pi.html">&pi;</a></li>
-        </ul>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h3>Miscellaneous</h3>
+                        <ul class="pageslist">
+                            <!-- <li><a href="plot">Javascript tool for data plotting</a></li> -->
+                            <li><a href="pi">&pi;</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </main>
+        </div>
     </div>
 </body>
 </html>

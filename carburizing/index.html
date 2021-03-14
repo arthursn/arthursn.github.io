@@ -2,8 +2,7 @@
 <html>
 
 <head>
-
-    <meta charset="utf-8">
+    <meta charset="utf8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -23,13 +22,14 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
     <!-- URI.js -->
-    <script src="js/URI.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.6/URI.min.js" integrity="sha512-W3prM2BMb4lI5HRwh1jFzURjpTueG9Tt3GK9q1Vb8w3T6SjZSDpyj6svha8pojrRPEDrz30LpnMLcFzgPkrmTQ==" crossorigin="anonymous"></script>
 
     <!-- Bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     
     <!-- dygraphs -->
-    <script type="text/javascript" src="js/dygraph-combined.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.min.js"></script>    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.min.css" />
 
     <!-- MathJax -->
     <script type="text/x-mathjax-config">
@@ -165,7 +165,7 @@
                         <div class="form-row">
                             <div class="col-md-4 col-sm-6 col-xs-6">
                                 <div class="form-group">
-                                    <label class="control-label col-sm-8" for="cs">Carbon in the surface (wt.%)</label>
+                                    <label class="control-label col-sm-8" for="cs">Carbon at the surface (wt.%)</label>
                                     <div class="col-sm-4"><input value="0.8" min=0 step="0.1" type="number" name="cs" id="cs" class="param form-control" pattern="[0-9]*"></div>
                                 </div>
                             </div>
@@ -208,7 +208,7 @@
         </div>
     </div>
 
-    <script src="js/carburizing.js"></script>
+    <script src="carburizing.js"></script>
 </body>
 
 </html>
