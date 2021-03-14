@@ -222,10 +222,8 @@ $(function() {
     $("#switch-scales").click(function(){
         let from = $("#from").val();
         let to = $("#to").val();
-        let valuesTo = $("#values-to").val();
 
         $("#from").val(to);
-        $("#values-from").val(valuesTo);
         $("#to").val(from);
 
         let p = getParams();
