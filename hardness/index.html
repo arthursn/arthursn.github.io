@@ -24,14 +24,14 @@
 
 <body>
     <!-- Page Content -->
-    <div class="container-fluid">
+    <div class="container">
         <main role="main">
             <h2 class="pb-2 mt-4 mb-2 border-bottom">Hardness conversion tool</h2>
 
             <p>Hardness conversion tool for non-austenitic steels. The values are interpolated from Tables 1 and 2 from <a target="_blank" href="http://dx.doi.org/10.1520/E0140-12B">ASTM E140-12b</a> standard.</p>
 
             <div class="row">
-                <div class="col-10 pr-0">
+                <div class="col-sm-11">
                     <label for="from">From:</label>
                     <div class="control-group row">
                         <div class="form-group col-12 col-md-5">
@@ -47,7 +47,7 @@
                             </select>
                         </div>
                         <div class="form-group col-12 col-md-7">
-                            <input id="values-from" class="form-control" placeholder="Type the values separated by spaces and hit ENTER.">
+                            <input id="values-from" class="form-control" placeholder="Type the values separated by spaces and hit ENTER." inputmode="numeric">
                             <div class="invalid-feedback" style="display:none;">Invalid syntax</div>
                         </div>
                     </div>
@@ -72,12 +72,12 @@
                     </div>
                 </div>
 
-                <div class="col-2 align-self-center">
-                    <button id="switch-scales" class="btn btn-secondary float-left"><i class="bi bi-arrow-down-up"></i></button>
+                <div class="col-sm-1 align-self-center">
+                    <button id="switch-scales" class="btn btn-secondary"><i class="bi bi-arrow-down-up"></i></button>
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row mt-2">
                 <div class="col-12">
                     <p>*Indentation hardness is not a single fundamental property but a combination of properties, and the contribution of each to the hardness number varies with the type of test. The modulus of elasticity has been shown to influence conversions at high hardness levels; and at low hardness levels conversions between hardness scales measuring depth and those measuring diameter are likewise influenced by differences in the modulus of elasticity. Therefore separate conversion tables are necessary for different materials.</p>
                     <p>*Values shown between round brackets are out of the range supplied in the ASTM E140 standard and consist of extrapolations.</p>
