@@ -53,7 +53,7 @@
                 getPi: function() {
                     return Math.sqrt(6*this.partialSum);
                 },
-                equation: "$$ \\frac{\\pi^2}{6} = \\sum_{n = 1}^{\\infty} \\frac{1}{n^2} $$",
+                equation: "$$ \\frac{\\pi^2}{6} = \\frac{1}{1^2} + \\frac{1}{2^2} + \\frac{1}{3^2} + \\frac{1}{4^2} + \\cdots = \\sum_{n = 1}^{\\infty} \\frac{1}{n^2} $$",
                 maxit: Infinity
             },
             gregoryLeibniz: {
@@ -66,7 +66,7 @@
                 getPi: function() {
                     return this.partialSum;
                 },
-                equation: "$$ \\pi = \\sum_{n = 0}^{\\infty} 4 \\frac{(-1)^n}{2 n + 1} $$",
+                equation: "$$ \\pi = \\frac{4}{1} - \\frac{4}{3} + \\frac{4}{5} - \\frac{4}{7} + \\cdots = \\sum_{n = 0}^{\\infty} 4 \\frac{(-1)^n}{2 n + 1} $$",
                 maxit: Infinity
             },
             nilakantha: {
@@ -79,7 +79,7 @@
                 getPi: function() { 
                     return this.partialSum; 
                 },
-                equation: "$$ \\pi = 3 - \\sum_{n = 1}^{\\infty} 4 \\frac{(-1)^n}{(2 n) (2n + 1) (2n + 2)} $$",
+                equation: "$$ \\pi = 3 + \\frac{4}{2 \\times 3 \\times 4} - \\frac{4}{4 \\times 5 \\times 6} + \\frac{4}{6 \\times 7 \\times 8} - \\frac{4}{8 \\times 9 \\times 10} + \\cdots = 3 - \\sum_{n = 1}^{\\infty} 4 \\frac{(-1)^n}{(2 n) (2n + 1) (2n + 2)} $$",
                 maxit: Infinity
             },
             ramanujan: {
